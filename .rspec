@@ -1,0 +1,4 @@
+--color
+--format Fuubar
+-Ispec/
+-rspec_helper
