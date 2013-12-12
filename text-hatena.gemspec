@@ -20,4 +20,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake"
   spec.add_development_dependency "rspec"
   spec.add_development_dependency "fuubar"
+  spec.add_development_dependency "guard-rspec"
+  spec.add_development_dependency "terminal-notifier-guard"
 end
