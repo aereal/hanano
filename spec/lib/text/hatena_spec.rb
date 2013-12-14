@@ -17,6 +17,10 @@ describe Text::Hatena do
     expect(parser).to parse("* a\n- a\n+ a\n** a\n")
   end
 
+  it "matches a paragraph" do
+    expect(parser).to parse("a\na\n")
+  end
+
   describe "Inline nodes" do
     describe "Text" do
       subject(:parser) { Text::Hatena.new.plain_text }
@@ -109,6 +113,42 @@ describe Text::Hatena do
 
       it "can not parse a list which has a heading" do
         expect(parser).not_to parse("- aaa\n- aaa\n* aaa\n")
+      end
+    end
+
+    describe "Paragraph" do
+      subject(:parser) { Text::Hatena.new.paragraph }
+
+      it "parses a paragraph with a line" do
+        expect(parser).to parse("a\n")
+      end
+
+      it "parses a paragraph with multi lines" do
+        expect(parser).to parse("a\nb\n")
+      end
+
+      it "parses a paragraph with blank lines" do
+        expect(parser).to parse("\n\n")
+      end
+
+      it "parses a line contains ascii characters" do
+        expect(parser).to parse("abc\n")
+      end
+
+      it "parses a line contains unicode characters" do
+        expect(parser).to parse("ゆのっち\n")
+      end
+
+      it "parses blank line" do
+        expect(parser).to parse("\n")
+      end
+
+      it "can not parse a characters that ends with no line breaks" do
+        expect(parser).not_to parse("aaa")
+      end
+
+      it "can not parse a end of blockquote" do
+        expect(parser).not_to parse("<<\n")
       end
     end
 

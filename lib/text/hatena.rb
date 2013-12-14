@@ -87,11 +87,14 @@ module Text
       pre_end
     }
 
+    rule(:paragraph) { (plain_text >> new_line).repeat(1) }
+
     rule(:block_nodes) {
       heading |
       list |
       blockquote |
-      pre
+      pre |
+      paragraph
     }
     rule(:expression) { block_nodes.repeat(1) }
 
