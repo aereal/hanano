@@ -9,7 +9,9 @@ module Text
       heading_annotation |
       list_annotation |
       blockquote_begin_annotation |
-      blockquote_end_annotation
+      blockquote_end_annotation |
+      pre_begin_annotation |
+      pre_format_specification_annotation
     }
     rule(:plain_character) { reserved_annotations.absent? >> match(/[^\n]/) }
     rule(:plain_text) { plain_character.repeat }
@@ -60,10 +62,36 @@ module Text
       blockquote_end
     }
 
+    rule(:pre_begin) {
+      pre_begin_annotation >>
+      pre_format_specification >>
+      new_line
+    }
+    rule(:pre_begin_annotation) { str(">") }
+    rule(:pre_format_specification_annotation) { str("|") }
+    rule(:pre_format_specification) {
+      pre_format_specification_annotation >>
+      pre_format.maybe >>
+      pre_format_specification_annotation
+    }
+    rule(:pre_format) {
+      match(/[\w\-]/).
+      repeat(1).
+      as(:format)
+    }
+    rule(:pre_end_annotation) { str("||<") }
+    rule(:pre_end) { pre_end_annotation >> new_line }
+    rule(:pre) {
+      pre_begin >>
+      (plain_text >> new_line).repeat.as(:content) >>
+      pre_end
+    }
+
     rule(:block_nodes) {
       heading |
       list |
-      blockquote
+      blockquote |
+      pre
     }
     rule(:expression) { block_nodes.repeat(1) }
 

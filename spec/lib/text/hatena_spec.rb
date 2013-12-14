@@ -131,5 +131,17 @@ describe Text::Hatena do
         expect(parser).to parse(">>\n* hogehoge\n- a\n<<\n")
       end
     end
+
+    describe "Pre" do
+      subject(:parser) { Text::Hatena.new.pre }
+
+      it "parses with contents" do
+        expect(parser).to parse(">||\n#!/bin/sh\necho bye\n||<\n")
+      end
+
+      it "parses with a language specification" do
+        expect(parser).to parse(">|sh|\n#!/bin/sh\necho bye\n||<\n")
+      end
+    end
   end
 end
