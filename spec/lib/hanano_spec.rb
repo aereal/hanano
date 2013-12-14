@@ -1,9 +1,9 @@
 # encoding: utf-8
 
-require 'text/hatena'
+require 'hanano'
 
-describe Text::Hatena do
-  subject(:parser) { Text::Hatena.new }
+describe Hanano do
+  subject(:parser) { Hanano.new }
 
   it "matches a list" do
     expect(parser).to parse("- a\n+ a\n")
@@ -23,7 +23,7 @@ describe Text::Hatena do
 
   describe "Inline nodes" do
     describe "Text" do
-      subject(:parser) { Text::Hatena.new.plain_text }
+      subject(:parser) { Hanano.new.plain_text }
 
       it "parses empty string" do
         expect(parser).to parse("")
@@ -61,7 +61,7 @@ describe Text::Hatena do
 
   describe "Block nodes" do
     describe "Heading" do
-      subject(:parser) { Text::Hatena.new.heading }
+      subject(:parser) { Hanano.new.heading }
 
       it "parses ascii characters" do
         expect(parser).to parse("* yunocchi\n")
@@ -77,7 +77,7 @@ describe Text::Hatena do
     end
 
     describe "List item" do
-      subject(:parser) { Text::Hatena.new.list_item }
+      subject(:parser) { Hanano.new.list_item }
 
       it "parses unordered list item" do
         expect(parser).to parse("- aaa\n")
@@ -101,7 +101,7 @@ describe Text::Hatena do
     end
 
     describe "List" do
-      subject(:parser) { Text::Hatena.new.list }
+      subject(:parser) { Hanano.new.list }
 
       it "parses a list which has a item" do
         expect(parser).to parse("- aaa\n")
@@ -117,7 +117,7 @@ describe Text::Hatena do
     end
 
     describe "Paragraph" do
-      subject(:parser) { Text::Hatena.new.paragraph }
+      subject(:parser) { Hanano.new.paragraph }
 
       it "parses a paragraph with a line" do
         expect(parser).to parse("a\n")
@@ -153,7 +153,7 @@ describe Text::Hatena do
     end
 
     describe "Blockquote" do
-      subject(:parser) { Text::Hatena.new.blockquote }
+      subject(:parser) { Hanano.new.blockquote }
 
       it "parses with no contents" do
         expect(parser).to parse(">>\n<<\n")
@@ -173,7 +173,7 @@ describe Text::Hatena do
     end
 
     describe "Pre" do
-      subject(:parser) { Text::Hatena.new.pre }
+      subject(:parser) { Hanano.new.pre }
 
       it "parses with contents" do
         expect(parser).to parse(">||\n#!/bin/sh\necho bye\n||<\n")

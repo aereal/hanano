@@ -1,7 +1,7 @@
 # coding: utf-8
 
 Gem::Specification.new do |spec|
-  spec.name          = "text-hatena"
+  spec.name          = "hanano"
   spec.version       = '0.0.0'
   spec.authors       = ["aereal"]
   spec.email         = ["aereal@aereal.org"]
