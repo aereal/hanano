@@ -1,0 +1,21 @@
+---
+language: ruby
+rvm:
+  - 2.0.0
+  - 1.9.3
+  - jruby-19mode
+  - ree
+  - ruby-head
+  - jruby-head
+bundler_args: -j4
+before_install:
+  - gem update --system
+  - gem --version
+  - gem install bundler --pre --no-ri --no-rdoc
+script: bundle exec rake coverage
+matrix:
+  allow_failures:
+    -
+      rvm:
+        - ruby-head
+        - jruby-head
