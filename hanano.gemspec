@@ -5,8 +5,8 @@ Gem::Specification.new do |spec|
   spec.version       = '0.0.0'
   spec.authors       = ["aereal"]
   spec.email         = ["aereal@aereal.org"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.summary       = %q{Parse Hatena Notation-like notation}
+  spec.description   = %q{Define and parse the subset or well-defined version of Hatena Notation}
   spec.homepage      = ""
   spec.license       = "MIT"
 

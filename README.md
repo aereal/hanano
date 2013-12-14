@@ -1,6 +1,6 @@
 # Hanano
 
-TODO: Write a gem description
+Define and parse the subset or well-defined version of Hatena Notation
 
 ## Installation
 
