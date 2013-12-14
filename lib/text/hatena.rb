@@ -7,7 +7,9 @@ module Text
     rule(:spaces?) { spaces.maybe }
     rule(:reserved_annotations) {
       heading_annotation |
-      list_annotation
+      list_annotation |
+      blockquote_begin_annotation |
+      blockquote_end_annotation
     }
     rule(:plain_character) { reserved_annotations.absent? >> match(/[^\n]/) }
     rule(:plain_text) { plain_character.repeat }
@@ -41,9 +43,27 @@ module Text
     }
     rule(:list) { list_item.repeat(1).as(:list) }
 
+    rule(:blockquote_begin_annotation) { str(">") }
+    rule(:blockquote_begin) {
+      blockquote_begin_annotation >>
+      spaces? >>
+      plain_text.as(:cite) >>
+      spaces? >>
+      blockquote_begin_annotation >>
+      new_line
+    }
+    rule(:blockquote_end_annotation) { str("<") }
+    rule(:blockquote_end) { blockquote_end_annotation.repeat(2, 2) >> new_line }
+    rule(:blockquote) {
+      blockquote_begin >>
+      block_nodes.repeat.as(:content) >>
+      blockquote_end
+    }
+
     rule(:block_nodes) {
       heading |
-      list
+      list |
+      blockquote
     }
     rule(:expression) { block_nodes.repeat(1) }
 

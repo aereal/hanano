@@ -44,6 +44,14 @@ describe Text::Hatena do
       it "can not parse that ends with new line" do
         expect(parser).not_to parse("aa\n")
       end
+
+      it "can not parse the blockquote begin annotation" do
+        expect(parser).not_to parse(">>")
+      end
+
+      it "can not parse the blockquote end annotation" do
+        expect(parser).not_to parse("<<")
+      end
     end
   end
 
@@ -101,6 +109,26 @@ describe Text::Hatena do
 
       it "can not parse a list which has a heading" do
         expect(parser).not_to parse("- aaa\n- aaa\n* aaa\n")
+      end
+    end
+
+    describe "Blockquote" do
+      subject(:parser) { Text::Hatena.new.blockquote }
+
+      it "parses with no contents" do
+        expect(parser).to parse(">>\n<<\n")
+      end
+
+      it "parses with contents" do
+        expect(parser).to parse(">>\nhogehoge\nhogehoge\n<<\n")
+      end
+
+      it "parses with cite URL" do
+        expect(parser).to parse(">http://example.com/>\nhogehoge\n<<\n")
+      end
+
+      it "contains some block nodes" do
+        expect(parser).to parse(">>\n* hogehoge\n- a\n<<\n")
       end
     end
   end
