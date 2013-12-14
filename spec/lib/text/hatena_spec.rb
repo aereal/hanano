@@ -5,8 +5,16 @@ require 'text/hatena'
 describe Text::Hatena do
   subject(:parser) { Text::Hatena.new }
 
+  it "matches a list" do
+    expect(parser).to parse("- a\n+ a\n")
+  end
+
   it "matches a heading" do
     expect(parser).to parse("* a\n")
+  end
+
+  it "matches a heading and a list" do
+    expect(parser).to parse("* a\n- a\n+ a\n** a\n")
   end
 
   describe "Inline nodes" do
@@ -53,6 +61,46 @@ describe Text::Hatena do
 
       it "can not parse that start with no annotations" do
         expect(parser).not_to parse("aaa\n")
+      end
+    end
+
+    describe "List item" do
+      subject(:parser) { Text::Hatena.new.list_item }
+
+      it "parses unordered list item" do
+        expect(parser).to parse("- aaa\n")
+      end
+
+      it "parses ordered list item" do
+        expect(parser).to parse("+ aaa\n")
+      end
+
+      it "parses mixed list item" do
+        expect(parser).to parse("-+ aaaa\n")
+      end
+
+      it "can not parse that starts with no annotations" do
+        expect(parser).not_to parse("a\n")
+      end
+
+      it "can not parse that starts with invalid annotations" do
+        expect(parser).not_to parse("* a\n")
+      end
+    end
+
+    describe "List" do
+      subject(:parser) { Text::Hatena.new.list }
+
+      it "parses a list which has a item" do
+        expect(parser).to parse("- aaa\n")
+      end
+
+      it "parses a list which has some items" do
+        expect(parser).to parse("- aaa\n- aaa\n")
+      end
+
+      it "can not parse a list which has a heading" do
+        expect(parser).not_to parse("- aaa\n- aaa\n* aaa\n")
       end
     end
   end
